@@ -1,22 +1,24 @@
-import React from 'react';
-import {Context} from "../index";
+import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
-import ListGroup from 'react-bootstrap/ListGroup'
+import {Context} from "../index";
+import ListGroup from "react-bootstrap/ListGroup";
 
-const {useContext} = require("react");
-
-export const TypeBar = observer(() => {
+const TypeBar = observer(() => {
   const {device} = useContext(Context)
   return (
-    <ListGroup className='mt-3'>
-      {
-        device.types.map((item)=>
-          <ListGroup.Item key={item.id}>
-            {
-              item.name
-            }
-          </ListGroup.Item>)
-      }
+    <ListGroup>
+      {device.types.map(type =>
+        <ListGroup.Item
+          style={{cursor: 'pointer'}}
+          active={type.id === device.selectedType.id}
+          onClick={() => device.setSelectedType(type)}
+          key={type.id}
+        >
+          {type.name}
+        </ListGroup.Item>
+      )}
     </ListGroup>
   );
-})
+});
+
+export default TypeBar;
